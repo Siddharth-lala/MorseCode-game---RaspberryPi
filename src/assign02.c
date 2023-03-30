@@ -13,8 +13,9 @@
 
 //Defination of alphabets in morse code
 char *morse[36] = {
-".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--",
-"-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--..",".----","..---","...--","....-",".....","-....","--...","---..","----.","-----"
+".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", //A-Z
+"-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--..",
+"-----",".----","..---","...--","....-",".....","-....","--...","---..","----." //Numbers 0-9
 };
 
 // Must declare the main assembly entry point before use.
@@ -65,7 +66,22 @@ void watchdog_init()
 }
 
 //Code for Morse code converter
+char* characater_to_morse(char character){
+    //For numbers
+    if (character >= 48 && character <= 57){
+        return morse[character- 48+26];
+    }
+    //For A-Z
+    if (character >=65 && character <=90){
+        return morse[character-65]
+    }
+    //For a-z, keeping the same morse code for both cases of characters
+    if (character >= 97 && character <= 122){
+        return morse[character - 97];
+    }
 
+
+}
 
 
 /*
