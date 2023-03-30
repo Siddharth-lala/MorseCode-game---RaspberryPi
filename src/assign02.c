@@ -10,6 +10,13 @@
 #define CHECK_RGBW true 
 #define NO_PIXELS 1
 #define WS2812_PIN 28 
+
+//Defination of alphabets in morse code
+char *morse[36] = {
+".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--",
+"-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--..",".----","..---","...--","....-",".....","-....","--...","---..","----.","-----"
+};
+
 // Must declare the main assembly entry point before use.
 void main_asm();
 // GPIO INTIALIZATION
@@ -56,6 +63,10 @@ void watchdog_init()
     watchdog_enable(0x7fffff,1);
     watchdog_update();
 }
+
+//Code for Morse code converter
+
+
 
 /*
  * Main entry point for the code - simply calls the main assembly function.
