@@ -83,6 +83,12 @@ char* characater_to_morse(char character){
 
 }
 
+//Code for morse code to character conversion
+char morse_to_character(char* morse){
+    //TODO
+    return 'a'
+}
+
 
 /*
  * Main entry point for the code - simply calls the main assembly function.
