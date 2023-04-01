@@ -89,6 +89,59 @@ char morse_to_character(char* morse){
     return 'a'
 }
 
+/ variables used in more then one function
+char arrayInput[20];
+int inputLength = 0;
+int inputComplete = 0;
+
+
+// Initalize the global input array
+void initInputArray()
+{
+    int maxsize = 20;
+    for (int j = 0; j < maxsize; j++)
+    {
+        arrayInput[j] = NULL;
+    }
+    inputComplete = 0;
+    inputLength = 0;
+}
+
+// check input dot, dash, enter, finish
+void add_to_input(int input)
+{
+    if (input == 1){                                   // dot
+        arrayInput[inputLength] = '-';  // add '.' to sequence
+        inputLength++;
+        printf(".");
+    }
+    else if (input == 2){                           // dash
+        arrayInput[inputLength] = '.'; // add '-' to sequence
+        inputLength++;
+        printf("-");
+    }
+    else if (input == 3){                           // enter
+        arrayInput[inputLength-1] = NULL;  // 4 is " "
+        inputComplete = 1;  // finished their attempt;
+    }
+    else if (input == 4){           // space
+        arrayInput[inputLength] = ' '; // add ' ' to sequence
+        inputLength++;
+        printf(" ");
+    }
+}
+
+
+//timestamp ms
+int find_time() {
+    absolute_time_t time = get_absolute_time();
+    return to_ms_since_boot(time);
+    }
+
+// time difference in ms
+     int time_difference(int end_time, int start_time) {
+        return (end_time - start_time);
+     } 
 
 /*
  * Main entry point for the code - simply calls the main assembly function.
