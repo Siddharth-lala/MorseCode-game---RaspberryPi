@@ -6,6 +6,7 @@
 #include "hardware/clocks.h"
 //#include "ws2812.pio.h"
 #include "hardware/watchdog.h"
+#include "string.h"
 
 #define CHECK_RGBW true 
 #define NO_PIXELS 1
@@ -96,7 +97,7 @@ char morse_to_character(char* morse_in){
     
     //Iterating through morse codes to check for the value
     for(int i=0; i<36;i++){
-        if (morse_in==morse[i]) break;
+        if (strcmp(morse_in,morse[i])==0) break;
     }   
     return letters[i]   //It contains the corresponding letter for the given morse input
 }
