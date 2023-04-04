@@ -12,11 +12,19 @@
 #define WS2812_PIN 28 
 
 //Defination of alphabets in morse code
+//1: .
+//2: -
 char *morse[36] = {
-".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", //A-Z
-"-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--..",
-"-----",".----","..---","...--","....-",".....","-....","--...","---..","----." //Numbers 0-9
+"12", "2111", "2121", "211", "1", "1121", "221", "1111", "11", "1222", "212", "1211", "22", //A2Z
+"21", "222", "1221", "2212", "121", "111", "2", "112", "1112", "122", "2112", "2122", "2211",
+"22222","12222","11222","11122","11112","11111","21111","22111","22211","22221" //Numbers 0-9
 };
+char *letters[37]={
+"A","B","C","D","E","F","G","H","I","J","K","L","M"
+"N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
+"0","1","2","3","4","5","6","7","8","9","?"
+}
+
 
 // Must declare the main assembly entry point before use.
 void main_asm();
@@ -84,12 +92,16 @@ char* characater_to_morse(char character){
 }
 
 //Code for morse code to character conversion
-char morse_to_character(char* morse){
-    //TODO
-    return 'a'
+char morse_to_character(char* morse_in){
+    
+    //Iterating through morse codes to check for the value
+    for(int i=0; i<36;i++){
+        if (morse_in==morse[i]) break;
+    }   
+    return letters[i]   //It contains the corresponding letter for the given morse input
 }
 
-/ variables used in more then one function
+// variables used in more then one function
 char arrayInput[20];
 int inputLength = 0;
 int inputComplete = 0;
