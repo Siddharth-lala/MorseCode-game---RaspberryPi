@@ -264,6 +264,83 @@ int stageOne()
     }
 }
 
+void level_2() {
+
+  int value = (rand() % 37);
+  int lives = 3;
+  int correct_ans = 0;
+  char input;
+  char given_char = letters[value];
+
+  // For stats
+  float total_ans = 0;
+  int total_correct_ans = 0;
+  int total_incorrect_ans = 0;
+
+  printf("%d lives remaining!\n", lives);
+
+  while (lives != 0 && correct_ans != 5) {
+    printf("Enter Morse code for: %c\n", given_char);
+    input = getchar();
+    getchar();
+    printf("You entered \"%c\" which decodes to \"%c\"\n", input,
+           morse_to_character(input));
+    total_ans++;
+    total_ans++;
+    if (morse_to_character(input) == given_char) {
+      printf("Correct Answer!\n");
+      correct_ans++;
+      total_correct_ans++;
+      // final_total_correct_ans++;
+      if (correct_ans == 1)
+        printf("You have answered 1 correct question!\n");
+      else if (correct_ans > 1)
+        printf("You have answered %d correct questions in a row!\n",
+               correct_ans);
+      if (lives < 3) {
+        lives++;
+        printf("Life added, %d lives remaining!\n\n", lives);
+      } else
+        printf("\n");
+      given_char = letters[value];
+
+    } else if (lives > 0) {
+      printf("Incorrect Answer!\n");
+      lives--;
+      total_incorrect_ans++;
+      // final_total_incorrect_ans++;
+      if (lives > 1)
+        printf("%d lives remaining!\n\n", lives);
+      else if (lives == 1)
+        printf("%d life remaining!\n\n", lives);
+      correct_ans = 0;
+    }
+  }
+  if (correct_ans == 5) {
+    printf("Congratulations! You have completed level 2\n\n");
+    printf("Stats for Level 02 are:\n");
+    printf("Total Answers: %d\n",total_ans);
+    printf("Total Correct Answer: %d\n",total_correct_ans);
+    printf("Total Incorrect Answer: %d/n", total_incorrect_ans);
+  } else if (lives == 0) {
+    printf("No lives remaining.\n");
+    printf("Game Finished...\n\n");
+    // printf("Final stats: \n");
+    // print_stats(final_total_ans, final_total_correct_ans,
+    // final_total_incorrect_ans);
+    printf("Would you like to play again?   \"-.--\" - Y\n");
+    printf("                                \"-.\"   - N\n");
+    input = getchar();
+    getchar();
+    if (input == 'Y') {
+      printf("Restarting game...\n");
+      welcome_screen();
+    } else {
+      printf("Thank you for playing!\n");
+    }
+  }
+}
+
 
 
 
