@@ -1,6 +1,8 @@
+/*
 void main_asm();
 void input();
 char *collectArray();
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,12 +18,14 @@ char *collectArray();
 #define NO_PIXELS 1
 #define WS2812_PIN 28 
 
+/*
 int stage = 1;                      
 int targetIndex;                 
 PIO pio = pio0;                               
 int correct, totalCorrect;  
 int gameover = 0;         
 int health, livesLost;
+*/
 
 //Defination of alphabets in morse code
 //1: .
@@ -219,7 +223,7 @@ void add_to_input(int input)
 }
 
 
-
+/*
 void stageInput()
 {
     printf("Please enter the level you would like to attempt:\n");
@@ -326,6 +330,86 @@ int stageOne()
         }
     }
 }
+*/
+
+
+void level_1() {
+
+  int value = (rand() % 36);
+  int lives = 3;
+  int correct = 0;
+  char input;
+  char given_char = letters[value];
+
+  
+  int total_correct = 0;
+  int total_incorrect = 0;
+  int total_ans = 0;
+  
+  printf("You have %d lives for this level\n", lives);
+  life_indicator(lives);
+  
+  while (lives != 0 && correct_ans != 5) {
+    printf("Enter Morse code for - %c( Hint: %s)\n", given_char,characater_to_morse(given_char));
+    input = getchar();
+    printf("You have entered \"%c\" which can be decoded to \"%c\"\n", input,morse_to_character(input));
+    total_ans++;
+   // final_total_ans++;
+    if (morse_to_character(input) == given_char) {
+      printf("Correct Answer!\n");
+      correct++;
+      total_correct++;
+      // final_total_correct++;
+      if (correct == 1)
+        printf("You have answered 1 correct question!\n");
+      else if (correct > 1)
+        printf("You have answered %d correct questions in a row!\n",
+               correct);
+      if (lives < 3) {
+        lives++;
+        life_indicator(lives);
+        printf("Life has been added, %d lives are remaining!\n\n", lives);
+      } else
+        printf("\n");
+      given_char = letters[value];
+
+    } else if (lives > 0) {
+      printf("Incorrect Answer!\n");
+      lives--;
+      life_indicator(lives);
+      total_incorrect++;
+      // final_total_incorrect++;
+      if (lives > 1)
+        printf("%d lives are remaining!\n\n", lives);
+      else if (lives == 1)
+        printf("%d life is remaining!\n\n", lives);
+      correct = 0;
+    }
+  }
+  if (correct == 5) {
+    printf("Congratulations! You progressed to level 2!\n\n");
+    printf("Stats for Level 1:\n");
+    printf("Total Answers: %f\n", total_ans);
+    printf("Total Correct Answer: %d\n", total_correct);
+    printf("Total Incorrect Answer: %d/n", total_incorrect);
+    printf("Now starting Level 2...\n\n");
+    level_2();
+  } else if (lives == 0) {
+    printf("No lives remaining.\n");
+    printf("Game Finished...\n\n");
+    printf("Do you want to play again?   \"-.--\" - Y\n");
+    printf("                                \"-.\"   - N\n");
+    input = getchar();
+    if (morse_to_character(input) == 'Y') {
+      printf("Restarting game...\n");
+      welcome_screen();
+    } else {
+      printf("Thank you for playing!\n");
+    }
+  }
+}
+
+
 
 void level_2() {
 
