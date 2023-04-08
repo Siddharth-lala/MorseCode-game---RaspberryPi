@@ -67,8 +67,45 @@ void asm_gpio_set_irq(uint pin)
      gpio_set_irq_enabled(pin, GPIO_IRQ_EDGE_RISE,true);
 
 }
+static inline void put_pixel(uint32_t pixel_grb)
+{
+    pio_sm_put_blocking(pio0, 0, pixel_grb << 8u);
+}
+
+/**
+ * @brief generate a 32-bit int composit RGB value by combining individual 8-bit params
+ *
+ * @param r
+ * @param g
+ * @param b
+ * @return uint32_t
+ */
+
+/**
+ * @brief ensures that the first 8 bits affect the red of the LED, middle 8 the green and last on blue
+ *
+ * @param r
+ * @param g
+ * @param b
+ * @return uint32_t
+ */
+static inline uint32_t urgb_u32(uint8_t r, uint8_t g, uint8_t b)
+{
+    return ((uint32_t)(r) << 8) |
+           ((uint32_t)(g) << 16) |
+           (uint32_t)(b);
+}
+
+/**
+ * @brief fetches and stores the current time
+ *
+ */
+
+
 
 // WATCHDOG initalization
+
+
 
 void watchdog_init()
 {
@@ -84,6 +121,32 @@ void watchdog_init()
     watchdog_enable(0x7fffff,1);
     watchdog_update();
 }
+
+void life_indicator(int lives)
+{
+    if (lives == 3)
+    {
+        put_pixel(urgb_u32(0x00, 0x2F, 0x00)); // green
+    }
+    else if (lives == 2)
+    {
+       put_pixel(urgb_u32(0x00, 0x00, 0x2F));// blue
+        
+    }
+    else if (lives == 1)
+    {
+      put_pixel(urgb_u32(0x2F, 0x2F, 0x00)); // yellow
+       
+    }
+    else if (lives == 0)
+    {
+        put_pixel(urgb_u32(0x2F, 0x00, 0x00)); // red
+    }
+    else
+       put_pixel(urgb_u32(0x2F, 0xC, 0x00)); // orange
+      
+}
+
 
 //Code for Morse code converter
 char* characater_to_morse(char character){
@@ -266,40 +329,40 @@ int stageOne()
 
 void level_2() {
 
-  int value = (rand() % 37);
+  int value = (rand() % 36);
   int lives = 3;
-  int correct_ans = 0;
+  int correct = 0;
   char input;
   char given_char = letters[value];
 
-  // For stats
-  float total_ans = 0;
-  int total_correct_ans = 0;
-  int total_incorrect_ans = 0;
-
-  printf("%d lives remaining!\n", lives);
-
+  
+  int total_correct = 0;
+  int total_incorrect = 0;
+  int total_ans = 0;
+  
+  printf("You have %d lives for this level\n", lives);
+  life_indicator(lives);
+  
   while (lives != 0 && correct_ans != 5) {
-    printf("Enter Morse code for: %c\n", given_char);
+    printf("Enter Morse code for - %c\n", given_char);
     input = getchar();
-    getchar();
-    printf("You entered \"%c\" which decodes to \"%c\"\n", input,
-           morse_to_character(input));
+    printf("You have entered \"%c\" which can be decoded to \"%c\"\n", input,morse_to_character(input));
     total_ans++;
-    total_ans++;
+   // final_total_ans++;
     if (morse_to_character(input) == given_char) {
       printf("Correct Answer!\n");
-      correct_ans++;
-      total_correct_ans++;
-      // final_total_correct_ans++;
-      if (correct_ans == 1)
+      correct++;
+      total_correct++;
+      // final_total_correct++;
+      if (correct == 1)
         printf("You have answered 1 correct question!\n");
-      else if (correct_ans > 1)
+      else if (correct > 1)
         printf("You have answered %d correct questions in a row!\n",
-               correct_ans);
+               correct);
       if (lives < 3) {
         lives++;
-        printf("Life added, %d lives remaining!\n\n", lives);
+        life_indicator(lives);
+        printf("Life has been added, %d lives are remaining!\n\n", lives);
       } else
         printf("\n");
       given_char = letters[value];
@@ -307,32 +370,29 @@ void level_2() {
     } else if (lives > 0) {
       printf("Incorrect Answer!\n");
       lives--;
-      total_incorrect_ans++;
-      // final_total_incorrect_ans++;
+      life_indicator(lives);
+      total_incorrect++;
+      // final_total_incorrect++;
       if (lives > 1)
-        printf("%d lives remaining!\n\n", lives);
+        printf("%d lives are remaining!\n\n", lives);
       else if (lives == 1)
-        printf("%d life remaining!\n\n", lives);
-      correct_ans = 0;
+        printf("%d life is remaining!\n\n", lives);
+      correct = 0;
     }
   }
-  if (correct_ans == 5) {
+  if (correct == 5) {
     printf("Congratulations! You have completed level 2\n\n");
-    printf("Stats for Level 02 are:\n");
+    printf("Statistics for Level 02 are:\n");
     printf("Total Answers: %d\n",total_ans);
-    printf("Total Correct Answer: %d\n",total_correct_ans);
-    printf("Total Incorrect Answer: %d/n", total_incorrect_ans);
+    printf("Total Correct Answer: %d\n",total_correct);
+    printf("Total Incorrect Answer: %d/n", total_incorrect);
   } else if (lives == 0) {
     printf("No lives remaining.\n");
     printf("Game Finished...\n\n");
-    // printf("Final stats: \n");
-    // print_stats(final_total_ans, final_total_correct_ans,
-    // final_total_incorrect_ans);
-    printf("Would you like to play again?   \"-.--\" - Y\n");
+    printf("Do you want to play again?   \"-.--\" - Y\n");
     printf("                                \"-.\"   - N\n");
     input = getchar();
-    getchar();
-    if (input == 'Y') {
+    if (morse_to_character(input) == 'Y') {
       printf("Restarting game...\n");
       welcome_screen();
     } else {
@@ -374,7 +434,11 @@ int main() {
     printf("\tPress GP21 for long duration to register a dash\n")
     printf("You have 3 lives and you lose 1 life for every incorrect answer and gain 1 life for every correct answer(max. 3 lives)\n")
     printf("Enter 5 fully correct sequences in a row to advance to the next level\n")
-
+    
+    PIO pio = pio0;
+    uint offset = pio_add_program(pio, &ws2812_program);
+    ws2812_program_init(pio, 0, offset, WS2812_PIN, 800000, IS_RGBW);
+  
     stageInput();
     return(0);
     
