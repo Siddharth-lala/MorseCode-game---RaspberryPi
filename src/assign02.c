@@ -35,7 +35,7 @@ char *letters[37]={
 "A","B","C","D","E","F","G","H","I","J","K","L","M"
 "N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
 "0","1","2","3","4","5","6","7","8","9","?"
-}
+};
 
 
 // Must declare the main assembly entry point before use.
@@ -93,7 +93,7 @@ char* characater_to_morse(char character){
     }
     //For A-Z
     if (character >=65 && character <=90){
-        return morse[character-65]
+        return morse[character-65];
     }
     //For a-z, keeping the same morse code for both cases of characters
     if (character >= 97 && character <= 122){
@@ -105,12 +105,12 @@ char* characater_to_morse(char character){
 
 //Code for morse code to character conversion
 char morse_to_character(char* morse_in){
-    
+    int i;
     //Iterating through morse codes to check for the value
-    for(int i=0; i<36;i++){
+    for(i=0; i<36;i++){
         if (strcmp(morse_in,morse[i])==0) break;
     }   
-    return letters[i]   //It contains the corresponding letter for the given morse input
+    return letters[i];   //It contains the corresponding letter for the given morse input
 }
 
 // variables used in more then one function
