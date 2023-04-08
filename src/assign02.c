@@ -1,6 +1,6 @@
-void main_asm();
-void input();
-char *collectArray();
+//void main_asm();
+//void input();
+//char *collectArray();
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,12 +16,12 @@ char *collectArray();
 #define NO_PIXELS 1
 #define WS2812_PIN 28 
 
-int stage = 1;                      
-int targetIndex;                 
-PIO pio = pio0;                               
-int correct, totalCorrect;  
-int gameover = 0;         
-int health, livesLost;
+//int stage = 1;                      
+//int targetIndex;                 
+//PIO pio = pio0;                               
+//int correct, totalCorrect;  
+//int gameover = 0;         
+//int health, livesLost;
 
 //Defination of alphabets in morse code
 //1: .
@@ -156,7 +156,7 @@ void add_to_input(int input)
 }
 
 
-
+/*
 void stageInput()
 {
     printf("Please enter the level you would like to attempt:\n");
@@ -182,6 +182,7 @@ void stageInput()
         stage = 2;
     }
 }
+*/
 
 int modifyArray(char *input)
 {
