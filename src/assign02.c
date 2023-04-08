@@ -1,8 +1,3 @@
-/*
-void main_asm();
-void input();
-char *collectArray();
-*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,14 +13,7 @@ char *collectArray();
 #define NO_PIXELS 1
 #define WS2812_PIN 28 
 
-/*
-int stage = 1;                      
-int targetIndex;                 
-PIO pio = pio0;                               
-int correct, totalCorrect;  
-int gameover = 0;         
-int health, livesLost;
-*/
+
 
 //Defination of alphabets in morse code
 //1: .
@@ -222,115 +210,6 @@ void add_to_input(int input)
     }
 }
 
-
-/*
-void stageInput()
-{
-    printf("Please enter the level you would like to attempt:\n");
-    printf("Enter: '.----' for level 1\n");
-    printf("Enter: '..---' for level 2\n");
-    input();
-    watchdog_update();
-
-    char *stageInput = collectArray();
-    char morsereturn[6];
-    for (int i = 0; i < 6; i++)
-    {
-        morsereturn[i] = *(stageInput + (i * 4));
-    }
-    char *string = morsereturn;
-
-    if (strcmp(string, morse[1]) == 0)
-    {
-        stage = 1;
-    }
-    if (strcmp(string, morse[2]) == 0)
-    {
-        stage = 2;
-    }
-}
-
-int modifyArray(char *input)
-{
-    char morsereturn[6];
-    for (int i = 0; i < 6; i++)
-    {
-        morsereturn[i] = *(input + (i * 4));
-    }
-    char *string = morsereturn;
-    int indexOfInput = morseSearch(string);
-    if (indexOfInput == -1)
-    {
-        printf("Not found: ?\n");
-        return 0;
-    }
-    if (targetIndex == indexOfInput)
-    {
-        printf("You entered: %s\n", letters[indexOfInput]);
-        return 1;
-    }
-    else
-    {
-        printf("You entered: %s\n", letters[indexOfInput]);
-        return 0;
-    }
-}
-
-int checkAccuracy()
-{
-    int correct = modifyArray(collectArray());
-    if (correct == 1)
-    {
-        printf("It is correct!!\n");
-        return 1;
-    }
-    else
-    {
-        printf("It is incorrect!!\n");
-        return 0;
-    }
-}
-
-int stageOne()
-{
-    printf("Welcome to Level One!\n");
-    health = 3;
-    correct = 0;
-    while (1)
-    {
-        targetIndex = rand() % 36;
-        printf("Please enter the following Character: %s, (Hint the Morse is : %s)\n", letters[targetIndex], morse[targetIndex]);
-       
-
-       input();
-        watchdog_update();
-        if (checkAccuracy() == 1)
-        {
-            correct;
-            totalCorrect++;
-            if (health < 3)
-            {
-                health++;
-            }
-
-            if (correct == 5)
-            {
-                return 1;
-            }
-        }
-        else
-        {
-            health--;
-            livesLost++;
-
-            if (health == 0)
-            {
-                return -1;
-            }
-        }
-    }
-}
-*/
 
 
 void level_1() {
