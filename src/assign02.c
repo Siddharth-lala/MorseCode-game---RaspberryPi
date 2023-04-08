@@ -182,7 +182,7 @@ void stageInput()
         stage = 2;
     }
 }
-*/
+
 
 int modifyArray(char *input)
 {
@@ -265,7 +265,7 @@ int stageOne()
     }
 }
 
-
+*/
 
 
 //timestamp ms
