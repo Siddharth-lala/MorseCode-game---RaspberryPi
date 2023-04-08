@@ -361,6 +361,20 @@ int find_time() {
 
 int main() {
     main_asm();
+    printf("=====================\n");
+    printf("| LEARN MORSE CODE  |\n");
+    printf("|Created By Group 33|\n ");
+    printf("=====================\n");
+    printf("\nInstrunctions:\n");
+    printf("-Choose the difficulty from the given options:\n")
+    printf("\tLevel 1: Morse code will be provided\n")
+    printf("\tLevel 2: Morse coed will not be provided\n")
+    printf("-A character will be printed on screen and you will have to input the correct sequence\n")
+    printf("\tPress GP21 for short duration to register a dot\n")
+    printf("\tPress GP21 for long duration to register a dash\n")
+    printf("You have 3 lives and you lose 1 life for every incorrect answer and gain 1 life for every correct answer(max. 3 lives)\n")
+    printf("Enter 5 fully correct sequences in a row to advance to the next level\n")
+
     stageInput();
     return(0);
     
