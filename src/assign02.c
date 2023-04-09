@@ -10,22 +10,22 @@ char *collectArray();
 #include "pico/stdlib.h"
 #include "hardware/pio.h"
 #include "hardware/clocks.h"
-//#include "ws2812.pio.h"
+#include "ws2812.pio.h"
 #include "hardware/watchdog.h"
 #include "string.h"
 
-#define CHECK_RGBW true 
-#define NO_PIXELS 1
+#define IS_RGBW true 
+#define NUM_PIXELS 1
 #define WS2812_PIN 28 
 
-/*
+
 int stage = 1;                      
 int targetIndex;                 
 PIO pio = pio0;                               
 int correct, totalCorrect;  
 int gameover = 0;         
 int health, livesLost;
-*/
+
 
 //Defination of alphabets in morse code
 //1: .
@@ -51,10 +51,6 @@ void asm_gpio_init(uint pin)
     gpio_init(pin);
 }
 
-void asm_gpio_init(uint pin)
-{
-    gpio_init(pin);
-}
 
 bool asm_gpio_get(uint pin)
 {
@@ -346,7 +342,7 @@ int stageOne()
 }
 
 
-
+void level_2();
 void level_1() {
 
   int value = (rand() % 36);
@@ -363,7 +359,7 @@ void level_1() {
   printf("You have %d lives for this level\n", lives);
   life_indicator(lives);
   
-  while (lives != 0 && correct_ans != 5) {
+  while (lives != 0 && correct!= 5) {
     printf("Enter Morse code for - %c( Hint: %s)\n", given_char,characater_to_morse(given_char));
     input = getchar();
     printf("You have entered \"%c\" which can be decoded to \"%c\"\n", input,morse_to_character(input));
@@ -441,7 +437,7 @@ void level_2() {
   printf("You have %d lives for this level\n", lives);
   life_indicator(lives);
   
-  while (lives != 0 && correct_ans != 5) {
+  while (lives != 0 && correct != 5) {
     printf("Enter Morse code for - %c\n", given_char);
     input = getchar();
     printf("You have entered \"%c\" which can be decoded to \"%c\"\n", input,morse_to_character(input));
@@ -524,7 +520,7 @@ int main() {
     PIO pio = pio0;
     uint offset = pio_add_program(pio, &ws2812_program);
     ws2812_program_init(pio, 0, offset, WS2812_PIN, 800000, IS_RGBW);
-  
+    welcome_screen();
     stageInput();
     return(0);
     
