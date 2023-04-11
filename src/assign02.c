@@ -521,7 +521,7 @@ int main() {
     uint offset = pio_add_program(pio, &ws2812_program);
     ws2812_program_init(pio, 0, offset, WS2812_PIN, 800000, IS_RGBW);
     welcome_screen();
-    stageInput();
+   // stageInput();
     return(0);
     
 }
