@@ -233,7 +233,7 @@ void add_to_input(int input)
 }
 
 
-
+/*
 void stageInput()
 {
     printf("Please enter the level you would like to attempt:\n");
@@ -340,9 +340,9 @@ int stageOne()
         }
     }
 }
+*/
 
-
-void level_2();
+//void level_2();
 void level_1() {
 
   int value = (rand() % 36);
