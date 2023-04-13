@@ -2,7 +2,6 @@
 #include "hardware/regs/io_bank0.h"
 #include "hardware/regs/timer.h"
 #include "hardware/regs/m0plus.h"
-
 .syntax unified
 .cpu    cortex-m0plus
 .thumb
