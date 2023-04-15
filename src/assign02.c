@@ -37,6 +37,70 @@ char arrayInput[20];
 int inputLength = 0;
 int inputComplete = 0;
 
+/****************** MORSE CODE *****************************/
+
+//Defination of alphabets in morse code
+//1: .
+//2: -
+char *morse[36] = {
+"12", "2111", "2121", "211", "1", "1121", "221", "1111", "11", "1222", "212", "1211", "22", //A2Z
+"21", "222", "1221", "2212", "121", "111", "2", "112", "1112", "122", "2112", "2122", "2211",
+"22222","12222","11222","11122","11112","11111","21111","22111","22211","22221" //Numbers 0-9
+};
+char *letters[37]={
+    "A","B","C","D","E","F","G","H","I","J","K","L","M",
+    "N","O","P","Q","R","S","T","U","V","W","X","Y","Z",
+    "0","1","2","3","4","5","6","7","8","9","?"
+};
+
+//Code for Morse code converter
+char* characater_to_morse(char character){
+    //For numbers
+    if (character >= 48 && character <= 57){
+        return morse[character- 48+26];
+    }
+    //For A-Z
+    if (character >=65 && character <=90){
+        return morse[character-65];
+    }
+    //For a-z, keeping the same morse code for both cases of characters
+    if (character >= 97 && character <= 122){
+        return morse[character - 97];
+    }
+        return morse[character- 48+26];
+
+}
+
+//Code for morse code to character conversion
+char morse_to_character(char* morse_in){
+    int i;
+    //Iterating through morse codes to check for the value
+    for(i=0; i<36;i++){
+        if (strcmp(morse_in,morse[i])==0) break;
+    } 
+    char l = letters[i][0];  
+    return l;   //It contains the corresponding letter for the given morse input
+}
+
+void welcome_screen(){
+    printf("=====================\n");
+    printf("| LEARN MORSE CODE  |\n");
+    printf("|Created By Group 33|\n ");
+    printf("=====================\n");
+    printf("\nInstrunctions:\n");
+    printf("-Choose the difficulty from the given options:\n");
+    printf("\tLevel 1: Morse code will be provided\n");
+    printf("\tLevel 2: Morse coed will not be provided\n");
+    printf("-A character will be printed on screen and you will have to input the correct sequence\n");
+    printf("\tPress GP21 for short duration to register a dot\n");
+    printf("\tPress GP21 for long duration to register a dash\n");
+    printf("You have 3 lives and you lose 1 life for every incorrect answer and gain 1 life for every correct answer(max. 3 lives)\n");
+    printf("Enter 5 fully correct sequences in a row to advance to the next level\n");
+}
+
+
+
+
 /* ************************** RGB LED ***********************************/
 
 /**
@@ -165,7 +229,7 @@ void initInputArray()
   
     for (int j = 0; j < 20; j++)
     {
-        arrayInput[j] = NULL;
+        arrayInput[j] = '\0';
     }
     inputComplete = 0;
     inputLength = 0;
@@ -185,7 +249,7 @@ void add_to_input(int input)
         printf("-");
     }
     else if (input == 3){                           // enter
-        arrayInput[inputLength-1] = NULL;  // 4 is " "
+        arrayInput[inputLength-1] = '\0';  // 4 is " "
         inputComplete = 1;  // finished their attempt;
     }
     else if (input == 4){           // space
@@ -207,13 +271,14 @@ int find_time() {
      } 
 
 /********************** LEVEL 1  *************************/
+void level_2();
 void level_1() {
 
   int value = (rand() % 36);
   int lives = 3;
   int correct = 0;
-  char input;
-  char given_char = letters[value];
+  char* input;
+  char given_char = letters[value][0];
 
   
   int total_correct = 0;
@@ -225,7 +290,7 @@ void level_1() {
   
   while (lives != 0 && correct!= 5) {
     printf("Enter Morse code for - %c( Hint: %s)\n", given_char,characater_to_morse(given_char));
-    input = getchar();
+    strcpy(input,arrayInput);
     printf("You have entered \"%c\" which can be decoded to \"%c\"\n", input,morse_to_character(input));
     total_ans++;
    // final_total_ans++;
@@ -245,7 +310,7 @@ void level_1() {
         printf("Life has been added, %d lives are remaining!\n\n", lives);
       } else
         printf("\n");
-      given_char = letters[value];
+      given_char = letters[value][0];
 
     } else if (lives > 0) {
       printf("Incorrect Answer!\n");
@@ -273,7 +338,7 @@ void level_1() {
     printf("Game Finished...\n\n");
     printf("Do you want to play again?   \"-.--\" - Y\n");
     printf("                                \"-.\"   - N\n");
-    input = getchar();
+    strcpy(input,arrayInput);
     if (morse_to_character(input) == 'Y') {
       printf("Restarting game...\n");
       welcome_screen();
@@ -289,8 +354,8 @@ void level_2() {
   int value = (rand() % 36);
   int lives = 3;
   int correct = 0;
-  char input;
-  char given_char = letters[value];
+  char* input;
+  char given_char = letters[value][0];
 
   
   int total_correct = 0;
@@ -302,7 +367,7 @@ void level_2() {
   
   while (lives != 0 && correct != 5) {
     printf("Enter Morse code for - %c\n", given_char);
-    input = getchar();
+    strcpy(input,arrayInput);
     printf("You have entered \"%c\" which can be decoded to \"%c\"\n", input,morse_to_character(input));
     total_ans++;
    // final_total_ans++;
@@ -322,7 +387,7 @@ void level_2() {
         printf("Life has been added, %d lives are remaining!\n\n", lives);
       } else
         printf("\n");
-      given_char = letters[value];
+      given_char = letters[value][0];
 
     } else if (lives > 0) {
       printf("Incorrect Answer!\n");
@@ -348,7 +413,7 @@ void level_2() {
     printf("Game Finished...\n\n");
     printf("Do you want to play again?   \"-.--\" - Y\n");
     printf("                                \"-.\"   - N\n");
-    input = getchar();
+    strcpy(input,arrayInput);
     if (morse_to_character(input) == 'Y') {
       printf("Restarting game...\n");
       welcome_screen();
@@ -358,66 +423,6 @@ void level_2() {
   }
 }
 
-/****************** MORSE CODE *****************************/
-
-//Defination of alphabets in morse code
-//1: .
-//2: -
-char *morse[36] = {
-"12", "2111", "2121", "211", "1", "1121", "221", "1111", "11", "1222", "212", "1211", "22", //A2Z
-"21", "222", "1221", "2212", "121", "111", "2", "112", "1112", "122", "2112", "2122", "2211",
-"22222","12222","11222","11122","11112","11111","21111","22111","22211","22221" //Numbers 0-9
-};
-char *letters[37]={
-"A","B","C","D","E","F","G","H","I","J","K","L","M"
-"N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
-"0","1","2","3","4","5","6","7","8","9","?"
-};
-
-//Code for Morse code converter
-char* characater_to_morse(char character){
-    //For numbers
-    if (character >= 48 && character <= 57){
-        return morse[character- 48+26];
-    }
-    //For A-Z
-    if (character >=65 && character <=90){
-        return morse[character-65];
-    }
-    //For a-z, keeping the same morse code for both cases of characters
-    if (character >= 97 && character <= 122){
-        return morse[character - 97];
-    }
-        return morse[character- 48+26];
-
-}
-
-//Code for morse code to character conversion
-char morse_to_character(char* morse_in){
-    int i;
-    //Iterating through morse codes to check for the value
-    for(i=0; i<36;i++){
-        if (strcmp(morse_in,morse[i])==0) break;
-    } 
-    char l = letters[i];  
-    return l;   //It contains the corresponding letter for the given morse input
-}
-
-void welcome_screen(){
-    printf("=====================\n");
-    printf("| LEARN MORSE CODE  |\n");
-    printf("|Created By Group 33|\n ");
-    printf("=====================\n");
-    printf("\nInstrunctions:\n");
-    printf("-Choose the difficulty from the given options:\n");
-    printf("\tLevel 1: Morse code will be provided\n");
-    printf("\tLevel 2: Morse coed will not be provided\n");
-    printf("-A character will be printed on screen and you will have to input the correct sequence\n");
-    printf("\tPress GP21 for short duration to register a dot\n");
-    printf("\tPress GP21 for long duration to register a dash\n");
-    printf("You have 3 lives and you lose 1 life for every incorrect answer and gain 1 life for every correct answer(max. 3 lives)\n");
-    printf("Enter 5 fully correct sequences in a row to advance to the next level\n");
-}
 
 /**
  * @brief assign02 - taking in temp and show colour
